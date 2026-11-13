@@ -26,7 +26,7 @@
     "eslint-plugin-react": "^7.37.5",
     "i18next": "^25.6.0",
     "i18next-http-backend": "^3.0.2",
-    "iframe-resizer": "^4.4.4",
+    "iframe-resizer": "^5.5.9",
     "pino": "^9.11.0",
     "pino-pretty": "^13.1.1",
     "react": "^19.1.1",
