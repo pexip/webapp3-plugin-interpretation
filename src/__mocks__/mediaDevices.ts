@@ -81,7 +81,7 @@ Object.defineProperty(global.navigator, 'mediaDevices', {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- no-unsafe-argument
     getUserMedia: async (options: any) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- no-unsafe-argument
-      if (options?.audio.deviceId != null) {
+      if (options?.audio.deviceId !== undefined) {
         const devices = testDevices.filter(
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- no-unsafe-argument
           (device) => device.deviceId === options.audio.deviceId

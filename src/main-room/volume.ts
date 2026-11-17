@@ -16,7 +16,7 @@ const refresh = (): void => {
 const setVolume = (volume: number): void => {
   const video: HTMLVideoElement | null =
     parent.document.querySelector(videoMeetingSelector)
-  if (video != null) {
+  if (video !== null) {
     video.volume = volume
     const minVolume = 0
     if (volume === minVolume) {

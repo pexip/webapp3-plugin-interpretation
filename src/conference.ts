@@ -5,7 +5,7 @@ export const setMainConferenceAlias = (alias: string): void => {
 }
 
 export const getMainConferenceAlias = (): string => {
-  if (conferenceAlias == null) {
+  if (conferenceAlias === null) {
     throw new Error('Conference alias not set')
   }
   return conferenceAlias

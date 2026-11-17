@@ -7,7 +7,7 @@ export const setUser = (participant: InfinityParticipant): void => {
 }
 
 export const getUser = (): InfinityParticipant => {
-  if (user == null) {
+  if (user === null) {
     throw new Error('User not set')
   }
   return user

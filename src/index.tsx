@@ -10,7 +10,7 @@ import '@pexip/components/dist/components.css'
 import './i18n'
 
 const root = document.getElementById('root')
-if (root == null) {
+if (root === null) {
   throw new Error('Not found element with id=root')
 }
 ReactDOM.createRoot(root).render(

@@ -18,7 +18,8 @@ export const capitalizeFirstLetter = (value: string): string => {
   return value.charAt(firstIndex).toUpperCase() + value.slice(secondIndex)
 }
 
-export const isIOS = (): boolean => /iPad|iPhone|iPod/.test(navigator.userAgent)
+export const isIOS = (): boolean =>
+  /iPad|iPhone|iPod/v.test(navigator.userAgent)
 
 export const pexHash = async (input: string): Promise<string | undefined> => {
   try {
@@ -40,7 +41,7 @@ export const pexHash = async (input: string): Promise<string | undefined> => {
       .join('')
 
     // Convert to dec
-    const decimal = BigInt('0x' + hashHex).toString(decRadix)
+    const decimal = BigInt(`0x${hashHex}`).toString(decRadix)
 
     return decimal
   } catch (error) {

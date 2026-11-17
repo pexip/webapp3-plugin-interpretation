@@ -22,7 +22,7 @@ export const Volume = (): React.JSX.Element => {
   const handleVolumeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    changeVolume(parseInt(event.target.value))
+    changeVolume(parseInt(event.target.value, 10))
   }
 
   const hasMainFloorPriority = volume < middleVolume

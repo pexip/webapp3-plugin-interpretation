@@ -26,7 +26,7 @@ export const initializeButton = async (): Promise<void> => {
 }
 
 export const setButtonActive = async (active: boolean): Promise<void> => {
-  if (button == null) {
+  if (button === null) {
     throw new Error('Button not initialized')
   }
   await button.update(

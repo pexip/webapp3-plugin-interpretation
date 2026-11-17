@@ -4,7 +4,7 @@ import mkcert from 'vite-plugin-mkcert'
 import react from '@vitejs/plugin-react'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
-import viteConfig from './vite.json'
+import viteConfig from './vite.json' with { type: 'json' }
 
 const role = process.env.ROLE
 

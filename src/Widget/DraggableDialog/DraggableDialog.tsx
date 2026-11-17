@@ -31,7 +31,7 @@ export const DraggableDialog = (
       }
     }
 
-    if (refDragButton.current != null) {
+    if (refDragButton.current !== null) {
       refDragButton.current.addEventListener('mousedown', (e) => {
         dragging = true
         toggleIFramePointerEvents(false)

@@ -2,7 +2,7 @@ import iframeResizer from 'iframe-resizer'
 
 export const initializeIFrame = (): void => {
   const pluginIFrame = getIFrame()
-  if (pluginIFrame != null) {
+  if (pluginIFrame !== undefined) {
     const { style } = pluginIFrame
     style.position = 'absolute'
     style.display = 'block'
@@ -22,7 +22,7 @@ export const initializeIFrame = (): void => {
 
 export const toggleIFramePointerEvents = (enable: boolean): void => {
   const pluginIFrame = getIFrame()
-  if (pluginIFrame != null) {
+  if (pluginIFrame !== undefined) {
     const { style } = pluginIFrame
     if (enable) {
       style.pointerEvents = 'inherit'
@@ -43,17 +43,17 @@ export const moveIFrame = (x: number, y: number): void => {
   let newX = x - xMargin
   let newY = y - yMargin
 
-  if (pluginIFrame != null) {
+  if (pluginIFrame !== undefined) {
     const minimum = 0
     newX = Math.max(minimum, newX)
     newY = Math.max(minimum, newY)
     newX = Math.min(
       newX,
-      parent.window.innerWidth - parseInt(pluginIFrame.style.width)
+      parent.window.innerWidth - parseInt(pluginIFrame.style.width, 10)
     )
     newY = Math.min(
       newY,
-      parent.window.innerHeight - parseInt(pluginIFrame.style.height)
+      parent.window.innerHeight - parseInt(pluginIFrame.style.height, 10)
     )
     const { style } = pluginIFrame
     style.position = 'absolute'

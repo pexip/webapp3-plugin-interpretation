@@ -20,7 +20,7 @@ export const showSelectLanguageForm = async (): Promise<void> => {
     }
   })
   const language = getLanguageByCode(input.language)
-  if (language != null) {
+  if (language !== undefined) {
     await getInterpretationContext().connect(language)
   }
 }
@@ -46,12 +46,10 @@ export const showPinForm = async (): Promise<void> => {
   const { setPin, connect, disconnect, state } = getInterpretationContext()
   const { language } = state
 
-  if (input.pin !== '') {
-    if (language != null) {
-      setPin(input.pin)
-      await connect(language)
-    }
-  } else {
+  if (input.pin === '') {
     await disconnect()
+  } else if (language !== null) {
+    setPin(input.pin)
+    await connect(language)
   }
 }

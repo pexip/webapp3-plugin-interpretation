@@ -9,7 +9,7 @@ export const setInterpretationContext = (
 }
 
 export const getInterpretationContext = (): InterpretationContextType => {
-  if (context == null) {
+  if (context === null) {
     throw new Error('Interpretation context not set')
   }
   return context
