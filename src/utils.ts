@@ -19,7 +19,7 @@ export const capitalizeFirstLetter = (value: string): string => {
 }
 
 export const isIOS = (): boolean =>
-  /iPad|iPhone|iPod/v.test(navigator.userAgent)
+  /iPad|iPhone|iPod/u.test(navigator.userAgent)
 
 export const pexHash = async (input: string): Promise<string | undefined> => {
   try {

@@ -119,7 +119,7 @@ export const InterpretationContextProvider = (props: {
         // `01234567890123456789interpreter`
         let [input] = callTag.split('?')
         // Check if the callTag is in the correct format (20 digits)
-        if (/^\d{20}$/v.exec(input) !== null) {
+        if (/^\d{20}$/u.exec(input) !== null) {
           input = `${input}${state.role}`
           pin = (await pexHash(input))?.slice(-maxSize)
         }
