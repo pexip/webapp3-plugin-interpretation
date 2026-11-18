@@ -24,7 +24,7 @@
     "@pexip/plugin-api": "22.0.0",
     "clsx": "^2.1.1",
     "eslint-plugin-react": "^7.37.5",
-    "i18next": "^25.6.0",
+    "i18next": "^25.10.10",
     "i18next-http-backend": "^3.0.5",
     "iframe-resizer": "^4.4.4",
     "pino": "^9.11.0",
