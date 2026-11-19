@@ -19,7 +19,7 @@ export const AdvanceLanguageSelector = (): React.JSX.Element => {
 
   const handleChangeLanguage = async (code: string): Promise<void> => {
     const language = getLanguageByCode(code)
-    if (language != null) {
+    if (language !== undefined) {
       await changeLanguage(language)
     }
   }
@@ -69,7 +69,7 @@ export const AdvanceLanguageSelector = (): React.JSX.Element => {
         data-testid="LanguageSelect"
         aria-label="language select"
         label={reversed ? t('from', 'From') : t('to', 'To')}
-        value={language != null ? language.code : ''}
+        value={language?.code ?? ''}
         options={getLanguageOptions()}
         onValueChange={(code: string) => {
           handleChangeLanguage(code).catch(logger.error)

@@ -99,7 +99,7 @@ export const InterpretationContextProvider = (props: {
     const callType = getCallType(state.role)
 
     let mediaStream: MediaStream | undefined = undefined
-    if (callType !== ClientCallType.AudioRecvOnly) {
+    if (callType !== ClientCallType.AudioRecv) {
       const constraints = MainRoom.getMediaConstraints()
       mediaStream = await getMediaStream(constraints)
     }
@@ -112,27 +112,26 @@ export const InterpretationContextProvider = (props: {
       const { rawData } = getUser()
       const { call_tag: callTag } = rawData
 
-      if (callTag != null) {
+      if (callTag !== undefined) {
         const maxSize = 20
         // The callTag can have the following format: `01234567890123456789?french,english`
         // We want to obtain the part before the "?" and append the role as suffix, so it becomes:
         // `01234567890123456789interpreter`
         let [input] = callTag.split('?')
         // Check if the callTag is in the correct format (20 digits)
-        if (/^\d{20}$/.exec(input) != null) {
+        if (/^\d{20}$/u.exec(input) !== null) {
           input = `${input}${state.role}`
           pin = (await pexHash(input))?.slice(-maxSize)
         }
       }
 
-      if (pin != null) {
+      if (pin === undefined) {
         await infinityClient.call({
           conferenceAlias,
           displayName,
           callType,
           bandwidth,
-          mediaStream,
-          pin
+          mediaStream
         })
       } else {
         await infinityClient.call({
@@ -140,7 +139,8 @@ export const InterpretationContextProvider = (props: {
           displayName,
           callType,
           bandwidth,
-          mediaStream
+          mediaStream,
+          pin
         })
       }
     } catch (e) {
@@ -162,8 +162,9 @@ export const InterpretationContextProvider = (props: {
       (state.role === Role.Interpreter ||
         (config.listener?.speakToInterpretationRoom ?? false))
     ) {
+      const newMediaStream = await getMediaStream(constraints)
       stopStream(mediaStream)
-      mediaStream = await getMediaStream(constraints)
+      mediaStream = newMediaStream
       infinityClient?.setStream(mediaStream)
     }
   }
@@ -252,50 +253,30 @@ export const InterpretationContextProvider = (props: {
   }
 
   const getCallType = (role: Role): ClientCallType => {
-    const { Audio, AudioSendOnly, AudioRecvOnly } = ClientCallType
-
-    let callType: ClientCallType = Audio
+    const { AudioSendRecv, AudioSend, AudioRecv } = ClientCallType
 
     if (role === Role.Interpreter) {
-      const { interpreter } = config
-      let shouldSendReceive = false
-      if (interpreter != null) {
-        const { allowChangeDirection } = interpreter
-        shouldSendReceive = allowChangeDirection
-      }
-      if (shouldSendReceive) {
-        callType = Audio
-      } else {
-        callType = AudioSendOnly
-      }
-    } else {
-      const { listener } = config
-      let shouldSendReceive = false
-      if (listener != null) {
-        const { speakToInterpretationRoom } = listener
-        shouldSendReceive = speakToInterpretationRoom
-      }
-      if (shouldSendReceive) {
-        callType = Audio
-      } else {
-        callType = AudioRecvOnly
-      }
+      const shouldSendReceive =
+        config.interpreter?.allowChangeDirection ?? false
+      return shouldSendReceive ? AudioSendRecv : AudioSend
     }
 
-    return callType
+    const shouldSendReceive =
+      config.listener?.speakToInterpretationRoom ?? false
+    return shouldSendReceive ? AudioSendRecv : AudioRecv
   }
 
   const getMediaStream = async (
     constraints?: MediaTrackConstraints
   ): Promise<MediaStream> => {
-    let stream: MediaStream | null = null
     try {
-      stream = await navigator.mediaDevices.getUserMedia({
+      const stream = await navigator.mediaDevices.getUserMedia({
         audio: constraints ?? true,
         video: false
       })
       const [audioTrack] = stream.getAudioTracks()
-      logger.info('Using audio device: ' + audioTrack.label)
+      logger.info(`Using audio device: ${audioTrack.label}`)
+      return stream
     } catch (e) {
       logger.error(e)
       const plugin = getPlugin()
@@ -304,7 +285,6 @@ export const InterpretationContextProvider = (props: {
       })
       throw e
     }
-    return stream
   }
 
   const stopStream = (stream: MediaStream | undefined): void => {
@@ -350,11 +330,9 @@ export const InterpretationContextProvider = (props: {
     if (role === Role.Listener) {
       if (hasGuestPin) {
         await showPinForm()
-      } else {
-        if (state.language != null) {
-          setPin('')
-          await connect(state.language)
-        }
+      } else if (state.language !== null) {
+        setPin('')
+        await connect(state.language)
       }
     }
   }

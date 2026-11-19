@@ -7,7 +7,9 @@ export default [
   {
     rules: {
       semi: ['error', 'never'],
-      'comma-dangle': ['error', 'never']
+      'comma-dangle': ['error', 'never'],
+      // The 'v' flag is not supported in Safari < 17 and breaks the plugin load
+      'require-unicode-regexp': ['error', { requireFlag: 'u' }]
     }
   },
   {

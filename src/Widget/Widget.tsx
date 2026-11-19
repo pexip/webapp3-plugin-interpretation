@@ -18,21 +18,9 @@ export const Widget = (): React.JSX.Element => {
 
   const { interpreter, listener } = config
 
-  let showAdvanceLanguageSelector = false
-  let showBaseLanguageSelector = false
-  let showListenerMuteButton = false
-
-  if (interpreter != null) {
-    const { allowChangeDirection } = interpreter
-    showAdvanceLanguageSelector = allowChangeDirection
-  }
-
-  if (listener != null) {
-    const { speakToInterpretationRoom } = listener
-    showListenerMuteButton = speakToInterpretationRoom
-  }
-
-  showBaseLanguageSelector = !showAdvanceLanguageSelector
+  const showAdvanceLanguageSelector = interpreter?.allowChangeDirection ?? false
+  const showBaseLanguageSelector = !showAdvanceLanguageSelector
+  const showListenerMuteButton = listener?.speakToInterpretationRoom ?? false
 
   return (
     <DraggableDialog title={t('interpretation', 'Interpretation')}>

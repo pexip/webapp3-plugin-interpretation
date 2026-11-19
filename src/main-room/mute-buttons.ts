@@ -30,7 +30,7 @@ const disable = (disabled: boolean): void => {
   const buttons = [toolbarButton, foldedSelfViewButton, selfViewButton]
 
   buttons.forEach((button) => {
-    if (button != null) {
+    if (button !== null) {
       if (disabled) {
         disableButton(button)
       } else {
@@ -45,7 +45,7 @@ const disable = (disabled: boolean): void => {
     const selfViewContainer = parent.document.querySelector(
       selfViewContainerSelector
     )
-    if (selfViewContainer != null) {
+    if (selfViewContainer !== null) {
       selfViewObserver.observe(selfViewContainer, selfViewObserverConfig)
     }
   } else {
@@ -55,7 +55,7 @@ const disable = (disabled: boolean): void => {
 
 const mute = (mute: boolean): void => {
   const toolbarButton = getToolbarButton()
-  if (toolbarButton != null) {
+  if (toolbarButton !== null) {
     const { disabled } = toolbarButton
     if (isMuted() !== mute) {
       if (disabled) {
@@ -72,11 +72,7 @@ const mute = (mute: boolean): void => {
 const isMuted = (): boolean => {
   const toolbarButton: HTMLButtonElement | null =
     parent.document.querySelector(toolbarMutedSelector)
-  if (toolbarButton != null) {
-    return true
-  } else {
-    return false
-  }
+  return toolbarButton !== null
 }
 
 const enableButton = (button: HTMLButtonElement): void => {
@@ -89,13 +85,14 @@ const disableButton = (button: HTMLButtonElement): void => {
     button.getAttribute('data-testid') === foldedSelfViewMutedTestId
 
   button.setAttribute('disabled', '')
-  button.style.color = 'rgba(100, 100, 100, .35)'
-  button.style.backgroundColor = isFoldedSelfView
+  const { style } = button
+  style.color = 'rgba(100, 100, 100, .35)'
+  style.backgroundColor = isFoldedSelfView
     ? 'transparent'
     : 'rgba(17, 17, 17, .65)'
-  button.style.boxShadow = 'none'
-  button.style.cursor = 'default'
-  button.style.transition = 'none'
+  style.boxShadow = 'none'
+  style.cursor = 'default'
+  style.transition = 'none'
 }
 
 const getToolbarButton = (): HTMLButtonElement | null => {

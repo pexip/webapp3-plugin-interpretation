@@ -103,12 +103,14 @@ let onAuthenticatedWithConferenceCallback: () => void = () => undefined
 jest.mock(
   '@pexip/infinity',
   () => {
-    const AudioRecvOnly = 0
-    const AudioSendOnly = 1
+    const AudioSend = 2
+    const AudioRecv = 4
+    const AudioSendRecv = 6
     return {
       ClientCallType: {
-        AudioRecvOnly,
-        AudioSendOnly
+        AudioSend,
+        AudioRecv,
+        AudioSendRecv
       },
       createInfinityClientSignals: jest.fn(() => ({
         onAuthenticatedWithConference: {
@@ -293,11 +295,11 @@ describe('InterpretationContext', () => {
         })
       })
 
-      it('should use callType=AudioSendOnly', () => {
+      it('should use callType=AudioSend', () => {
         expect(mockInfinityCall).toHaveBeenCalledTimes(CALLED_ONCE)
         expect(mockInfinityCall).toHaveBeenCalledWith(
           expect.objectContaining({
-            callType: ClientCallType.AudioSendOnly
+            callType: ClientCallType.AudioSend
           })
         )
       })
@@ -339,11 +341,11 @@ describe('InterpretationContext', () => {
         })
       })
 
-      it('should use callType=AudioRecvOnly', () => {
+      it('should use callType=AudioRecv', () => {
         expect(mockInfinityCall).toHaveBeenCalledTimes(CALLED_ONCE)
         expect(mockInfinityCall).toHaveBeenCalledWith(
           expect.objectContaining({
-            callType: ClientCallType.AudioRecvOnly
+            callType: ClientCallType.AudioRecv
           })
         )
       })
@@ -593,7 +595,7 @@ describe('InterpretationContext', () => {
 
         describe('speakToInterpretationRoom === false', () => {
           it("shouldn't disable the main room mute", async () => {
-            if (config.listener != null) {
+            if (config.listener !== undefined) {
               config.listener.speakToInterpretationRoom = false
             }
             await renderConnectedListenerTest()
@@ -603,7 +605,7 @@ describe('InterpretationContext', () => {
 
         describe('speakToInterpretationRoom === true', () => {
           it('should disable the main room mute', async () => {
-            if (config.listener != null) {
+            if (config.listener !== undefined) {
               config.listener.speakToInterpretationRoom = true
             }
             await renderConnectedListenerTest()

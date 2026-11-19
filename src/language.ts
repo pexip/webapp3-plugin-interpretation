@@ -22,7 +22,7 @@ const getAvailableLanguages = (): Language[] => {
   const { rawData } = getUser()
   const { call_tag: callTag } = rawData
 
-  if (callTag != null) {
+  if (callTag !== undefined) {
     const parts = callTag.split('?')
     const minLength = 1
     if (parts.length > minLength) {

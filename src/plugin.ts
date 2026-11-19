@@ -7,7 +7,7 @@ export const setPlugin = (plugin: Plugin): void => {
 }
 
 export const getPlugin = (): Plugin => {
-  if (pluginInstance == null) {
+  if (pluginInstance === null) {
     throw new Error('Plugin not set')
   }
   return pluginInstance

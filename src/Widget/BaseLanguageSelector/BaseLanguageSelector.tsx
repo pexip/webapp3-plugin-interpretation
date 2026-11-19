@@ -12,7 +12,7 @@ export const BaseLanguageSelector = (): React.JSX.Element => {
 
   const handleChangeLanguage = async (code: string): Promise<void> => {
     const language = getLanguageByCode(code)
-    if (language != null) {
+    if (language !== undefined) {
       await changeLanguage(language)
     }
   }
